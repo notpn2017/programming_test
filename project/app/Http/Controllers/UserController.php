@@ -31,6 +31,7 @@ class UserController extends Controller
 		{
 			return response()->json($validator->errors(), 422);
 		} else {
+			
 			$user = User::create($request->all());
 
 	    	return response()->json($user, 201);
@@ -49,6 +50,7 @@ class UserController extends Controller
 		{
 			return response()->json($validator->errors(), 422);
 		} else {
+
 			$user = User::where('username', $username)->first();
 	        $current_password = $request->password;
 
@@ -83,7 +85,6 @@ class UserController extends Controller
 
 			if ($user->password == $current_password) 
 			{
-
 	        	$user->delete();
 	        	return response()->json(null, 204);
 	        } else {
@@ -107,7 +108,9 @@ class UserController extends Controller
 		{
 			return response()->json($validator->errors(), 422);
 		} else {
+
 			$user = User::where('username', $username)->first();
+
 	        if($request->password == $user->password) 
 	        {
 	            $avatarName = time().'.'.request()->avatar->getClientOriginalExtension();
