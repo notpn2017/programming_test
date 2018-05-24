@@ -118,7 +118,7 @@ class UserController extends Controller
 
 	            return response()->json($user, 201);
 	        } else {
-	            return response()->json('error', 'You have entered wrong password. Please try agian.');
+	            return response()->json('You have entered wrong password. Please try agian.', 422);
 	        }
 	    }
 
