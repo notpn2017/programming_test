@@ -35,7 +35,6 @@ class UserController extends Controller
 
 	    	return response()->json($user, 201);
 		}
-        
 	}
 
     public function update(Request $request, $username)
@@ -66,7 +65,6 @@ class UserController extends Controller
 	    {
 	    	return response()->json('Entered empty data.', 422);
 	    }
-
     }
 
     public function delete(Request $request, $username)
