@@ -24,7 +24,7 @@ class UserController extends Controller
 	        'username' => 'unique:users|required|min:6',
             'password' => 'required|min:6',
             'phone_number' => 'required|regex:/(01)[0-9]{9}/',
-            'birthday' => 'required',
+            'birthday' => 'required|date|date_format:d/m/Y',
 	    ]);
 
 		if ($validator->fails())
@@ -43,15 +43,17 @@ class UserController extends Controller
     	$validator = \Validator::make($request->all(), [
             'password' => 'required|min:6',
             'phone_number' => 'required|regex:/(01)[0-9]{9}/',
-            'birthday' => 'required',
+            'birthday' => 'required|date|date_format:d/m/Y',
 	    ]);
+
+
+		$user = User::where('username', $username)->first();
 
 	    if ($validator->fails())
 		{
 			return response()->json($validator->errors(), 422);
 		} else {
 
-			$user = User::where('username', $username)->first();
 	        $current_password = $request->password;
 
 			if ($user->password == $current_password) {
@@ -59,13 +61,13 @@ class UserController extends Controller
 	        	$user->update($request->all());
 	        	return response()->json($user, 200);
 	        } else {
-	        	return response()->json('You have entered wrong password. Please try agian.', 422);
+	        	return response()->json(['error' => 'You have entered wrong password. Please try agian.'], 422);
 	        }
 		}
 
 	    if ($request->request->all() == null) 
 	    {
-	    	return response()->json('Entered empty data.', 422);
+	    	return response()->json(['error' => 'Entered empty data.'], 422);
 	    }
     }
 
@@ -88,13 +90,13 @@ class UserController extends Controller
 	        	$user->delete();
 	        	return response()->json(null, 204);
 	        } else {
-	        	return response()->json('You have entered wrong password. Please try agian.', 422);
+	        	return response()->json(['error' => 'You have entered wrong password. Please try agian.'], 422);
 	        }
 	    }
 
 	    if ($request->request->all() == null) 
 	    {
-	    	return response()->json('Entered empty data.', 422);
+	    	return response()->json(['error' => 'Entered empty data.'], 422);
 	    }
     }
 
@@ -121,13 +123,13 @@ class UserController extends Controller
 
 	            return response()->json($user, 201);
 	        } else {
-	            return response()->json('You have entered wrong password. Please try agian.', 422);
+	            return response()->json(['error' => 'You have entered wrong password. Please try agian.'], 422);
 	        }
 	    }
 
 	    if ($request->request->all() == null) 
 	    {
-	    	return response()->json('Entered empty data.', 422);
+	    	return response()->json(['error' => 'Entered empty data.'], 422);
 	    }
     }
 }

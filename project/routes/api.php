@@ -23,3 +23,4 @@ Route::post('users', 'UserController@store');
 Route::put('users/{username}', 'UserController@update');
 Route::delete('users/{username}', 'UserController@delete');
 Route::post('users/{username}/avatar', 'UserController@saveAvatar');
+Route::resource('users', 'UserController');
